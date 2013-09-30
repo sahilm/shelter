@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Shelter::VERSION
   spec.authors       = ["Sahil Muthoo"]
   spec.email         = ["sahil.muthoo@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{A shell example in Ruby}
+  spec.summary       = %q{A shell example in Ruby}
+  spec.homepage      = "https://github.com/sahilm/shelter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
