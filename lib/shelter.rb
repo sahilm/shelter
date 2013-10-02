@@ -11,4 +11,6 @@ end
 require 'readline'
 require 'shellwords'
 require 'shelter/version'
+require 'shelter/commands'
+require 'shelter/command_parser'
 require 'shelter/shell'
