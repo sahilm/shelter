@@ -1,6 +1,8 @@
 module Shelter
   module Commands
     class Builtin
+      include Shelter::Commands
+
       attr_reader :cmd, :args
 
       BUILTINS = {
@@ -15,9 +17,12 @@ module Shelter
         end
       end
 
-
       def initialize(cmd)
         @cmd, @args = Shellwords.shellsplit(cmd)
+      end
+
+      def complete(file_name)
+        complete_file_name(file_name)
       end
 
       def run

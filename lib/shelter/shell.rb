@@ -2,7 +2,10 @@ module Shelter
   class Shell
     HISTORY_FILE = File.join(Dir.home, '.bash_history')
     Readline.completion_append_character = nil
-    Readline.completion_proc = Shelter::FILE_NAME_COMPLETER
+    Readline.basic_word_break_characters= " \t\n`><=;|&{("
+    Readline.completer_word_break_characters = Readline.basic_word_break_characters + '.'
+    Readline.completion_proc = Shelter::Completion::COMPLETER
+
 
     def run
       read_history

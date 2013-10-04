@@ -1,10 +1,15 @@
 module Shelter
   module Commands
     class Command
+      include Shelter::Commands
       attr_reader :cmd, :args
 
       def initialize(cmd)
         @cmd, @args = Shellwords.shellsplit(cmd)
+      end
+
+      def complete(file_name)
+        complete_file_name(file_name)
       end
 
       def run
