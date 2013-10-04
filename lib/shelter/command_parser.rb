@@ -1,13 +1,23 @@
 module Shelter
   class CommandParser < Struct.new(:cmd)
+    DEFAULT_COMMAND = -> { Shelter::Commands::Command }
 
     def parse
-      if Shelter::Commands::Builtin.match?(cmd)
-        Shelter::Commands::Builtin.new(cmd)
-      elsif Shelter::Commands::Ruby.match?(cmd)
-        Shelter::Commands::Ruby.new(cmd)
-      else
-        Shelter::Commands::Command.new(cmd)
+      commands.detect(DEFAULT_COMMAND) do |command|
+        command.match?(cmd)
+      end.new(cmd)
+    end
+
+    private
+    def commands
+      @commands ||= _commands
+    end
+
+    def _commands
+      Shelter::Commands.constants.inject([]) do |memo, constant|
+        c = Shelter::Commands.const_get(constant)
+        memo << c if c.respond_to?(:match?)
+        memo
       end
     end
   end
