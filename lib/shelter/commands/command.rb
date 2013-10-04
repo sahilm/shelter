@@ -1,8 +1,6 @@
 module Shelter
   module Commands
     class Command
-      include Shelter::Commands
-
       attr_reader :cmd, :args
 
       def initialize(cmd)
@@ -10,7 +8,10 @@ module Shelter
       end
 
       def run
-        execute(cmd, *args)
+        pid = fork do
+          exec cmd, *args
+        end
+        Process.waitpid(pid)
       end
     end
   end
