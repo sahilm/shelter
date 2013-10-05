@@ -14,6 +14,7 @@ module Shelter
 
       def run
         pid = fork do
+          STDERR.reopen('/dev/null')
           exec cmd, *args
         end
         Process.waitpid(pid)

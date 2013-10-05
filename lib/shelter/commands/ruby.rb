@@ -21,6 +21,8 @@ module Shelter
         else
           []
         end
+      rescue
+        []
       end
 
       def run
@@ -52,6 +54,7 @@ module Shelter
       def matching_methods(eval_string, pattern=nil)
         reader, writer = IO.pipe
         pid = fork do
+          STDERR.reopen('/dev/null')
           reader.close
           writer.write(eval(eval_string))
           writer.close

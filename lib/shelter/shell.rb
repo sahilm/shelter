@@ -6,14 +6,13 @@ module Shelter
     Readline.completer_word_break_characters = Readline.basic_word_break_characters + '.'
     Readline.completion_proc = Shelter::Completion::COMPLETER
 
-
     def run
       read_history
       inputs = []
       while (buf = Readline.readline("[#{File.basename(Dir.pwd)}] > ", true))
         inputs << buf
         cmd = Shelter::CommandParser.new(buf).parse
-        cmd.run
+        cmd.run rescue next
       end
     ensure
       write_history(inputs)
