@@ -8,10 +8,6 @@ module Shelter
         @cmd, @args = Shellwords.shellsplit(cmd)
       end
 
-      def complete(file_name)
-        complete_file_name(file_name)
-      end
-
       def run
         pid = fork do
           STDERR.reopen('/dev/null')

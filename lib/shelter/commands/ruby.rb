@@ -14,6 +14,7 @@ module Shelter
       end
 
       def complete(_)
+        Readline.completer_word_break_characters = Readline.basic_word_break_characters
         if cmd =~ /\./
           method_completion
         elsif cmd =~ /^[A-Z]/
@@ -33,7 +34,6 @@ module Shelter
       end
 
       private
-
       def strip_ruby(cmd)
         cmd.gsub(/^ruby/, '').strip
       end

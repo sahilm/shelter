@@ -1,15 +1,12 @@
 module Shelter
   class Shell
     HISTORY_FILE = File.join(Dir.home, '.bash_history')
-    PROMPT = "[#{File.basename(Dir.pwd)}] > "
     Readline.completion_append_character = nil
-    Readline.basic_word_break_characters= " \t\n`><=;|&{("
-    Readline.completer_word_break_characters = Readline.basic_word_break_characters + '.'
     Readline.completion_proc = Shelter::Completion::COMPLETER
 
     def run
       read_history
-      while input = Readline.readline(PROMPT)
+      while input = Readline.readline("[#{File.basename(Dir.pwd)}] > ")
         input.strip!
         next if input.empty?
         Readline::HISTORY.push input

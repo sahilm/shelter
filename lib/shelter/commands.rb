@@ -1,11 +1,14 @@
 module Shelter
   module Commands
-    def complete_file_name(file_name)
-      if File.directory?(file_name) && !file_name.end_with?('/')
-        Dir["#{file_name}/*"]
+    def complete(file_name)
+      Readline.completer_word_break_characters = Readline.basic_word_break_characters
+      pattern = file_name
+      if File.directory?(file_name) && file_name !~ /(\.|\/)\z/
+        pattern << '/*'
       else
-        Dir["#{file_name}*"]
+        pattern << '*'
       end
+      Dir[pattern]
     end
   end
 end

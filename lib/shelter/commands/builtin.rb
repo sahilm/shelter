@@ -21,10 +21,6 @@ module Shelter
         @cmd, @args = Shellwords.shellsplit(cmd)
       end
 
-      def complete(file_name)
-        complete_file_name(file_name)
-      end
-
       def run
         BUILTINS[cmd].call(*args)
       end
