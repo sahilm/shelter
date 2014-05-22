@@ -1,6 +1,7 @@
 module Shelter
   class Shell
     HISTORY_FILE = File.join(Dir.home, '.bash_history')
+    PROMPT = "[#{File.basename(Dir.pwd)}] > "
     Readline.completion_append_character = nil
     Readline.basic_word_break_characters= " \t\n`><=;|&{("
     Readline.completer_word_break_characters = Readline.basic_word_break_characters + '.'
@@ -8,25 +9,26 @@ module Shelter
 
     def run
       read_history
-      inputs = []
-      while (buf = Readline.readline("[#{File.basename(Dir.pwd)}] > ", true))
-        inputs << buf
-        cmd = Shelter::CommandParser.new(buf).parse
+      while input = Readline.readline(PROMPT)
+        input.strip!
+        next if input.empty?
+        Readline::HISTORY.push input
+        cmd = Shelter::CommandParser.new(input).parse
         cmd.run rescue next
       end
     ensure
-      write_history(inputs)
+      write_history
     end
 
     private
-    def write_history(cmds)
-      File.open(HISTORY_FILE, 'a') do |f|
-        f.puts cmds.join("\n")
+    def write_history
+      File.open(HISTORY_FILE, 'w') do |f|
+        Readline::HISTORY.each { |line| f.puts line }
       end
     end
 
     def read_history
-      File.readlines(HISTORY_FILE).each do |cmd|
+      File.foreach(HISTORY_FILE) do |cmd|
         Readline::HISTORY.push cmd
       end
     end
